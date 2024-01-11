@@ -1,0 +1,19 @@
+.sider {
+  background: white !important;
+  border-top: 1px solid lightgray;
+  :global(.ant-menu-item) {
+    font-size: 1.1rem;
+  }
+  :global(.ant-menu-item-selected) {
+    background-color: #b0d8a1;
+    color: #366138;
+  }
+  :global(.ant-layout-sider-trigger) {
+    color: #b0d8a1;
+    font-weight: 600;
+    background-color: #366138;
+  }
+}
+h2 {
+  padding: 0 2rem;
+}
