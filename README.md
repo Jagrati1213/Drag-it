@@ -19,7 +19,11 @@
 
 - for this we used one more handler called `onconnect` and `addEdge`.
 
-## Today's Task 👍:
+ <!-- Another Way : works properly with normal function - useCallback just used re-render only updated part instead of whole component
 
-- Learn Custom Node how to create.
-- With input fields
+const fun = (changes) => {
+return setNodes((nodes) => applyNodeChanges(changes, nodes));
+}
+const fun1 = (changes) => {
+return setEdges((nodes) => applyEdgeChanges(changes, nodes));
+}  -->
