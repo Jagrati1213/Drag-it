@@ -1,0 +1,1 @@
+export const LOGO_URL = 'https://w7.pngwing.com/pngs/265/736/png-transparent-circle-angle-purple-creative-warehouse-logo-design-miscellaneous-png-material-free-logo-design-template.png';
