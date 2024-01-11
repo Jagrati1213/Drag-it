@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { EyeFilled } from '@ant-design/icons';
+import { GithubFilled } from '@ant-design/icons';
 import ReactFlow,
 {
     Background,
@@ -94,7 +94,7 @@ const Flow = () => {
         </Panel>
         <Controls>
             <ControlButton onClick={() => alert(`check out my GitHub profile 🚀 : https://github.com/Jagrati1213`)}>
-                <EyeFilled />
+                <GithubFilled />
             </ControlButton>
         </Controls>
         <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} />
