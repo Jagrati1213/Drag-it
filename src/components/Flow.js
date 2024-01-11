@@ -1,5 +1,16 @@
 import React, { useState, useCallback } from "react";
-import ReactFlow, { Background, Controls, applyEdgeChanges, applyNodeChanges, addEdge, MiniMap, SelectionMode, Panel, ControlButton } from "reactflow"
+import { EyeFilled } from '@ant-design/icons';
+import ReactFlow,
+{
+    Background,
+    Controls,
+    applyEdgeChanges,
+    applyNodeChanges,
+    addEdge,
+    MiniMap,
+    Panel,
+    ControlButton
+} from "reactflow"
 import 'reactflow/dist/style.css';
 import TextUpdaterNode from "./TextUpdater";
 import '../index.css';
@@ -82,8 +93,8 @@ const Flow = () => {
             <h2>React Flow</h2>
         </Panel>
         <Controls>
-            <ControlButton onClick={() => alert('Something magical just happened. ✨')}>
-                click
+            <ControlButton onClick={() => alert(`check out my GitHub profile 🚀 : https://github.com/Jagrati1213`)}>
+                <EyeFilled />
             </ControlButton>
         </Controls>
         <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} />
