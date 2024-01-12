@@ -1,75 +1,122 @@
-import React, { useState, useCallback } from "react";
+import React, { useRef, useCallback } from 'react';
+import ReactFlow, { ControlButton, Controls, MiniMap, Panel, useReactFlow, useStoreApi } from 'reactflow';
+import { shallow } from 'zustand/shallow';
+import useStore from '../store';
+import { MindMapNode } from './MindMapNode';
+import { MindMapEdge } from './MindMapEdge';
 import { GithubFilled } from '@ant-design/icons';
-import ReactFlow,
-{
-    Background,
-    Controls,
-    applyEdgeChanges,
-    applyNodeChanges,
-    addEdge,
-    MiniMap,
-    Panel,
-    ControlButton
-} from "reactflow"
 import 'reactflow/dist/style.css';
-import TextUpdaterNode from "./TextUpdater";
-import '../index.css';
-import { InitialEdges, InitialNodes } from "../utils/Constant";
 
-
-// Node colors
-const nodeColor = (node) => {
-    switch (node.type) {
-        case 'input':
-            return '#6ede87';
-        case 'output':
-            return '#6865A5';
-        default:
-            return '#ff0072';
-    }
-};
-
-// Custom Node 
-const nodeTypes = { textUpdater: TextUpdaterNode };
-
-const Flow = () => {
-
-    const [nodes, setNodes] = useState(InitialNodes);
-    const [edges, setEdges] = useState(InitialEdges);
-
-    // Make dregAble nodes
-    const onNodesChangeHandler = useCallback(
-        (changes) => setNodes((node) => applyNodeChanges(changes, node)),
-        []);
-
-    // Make dregAble edges with their nodes
-    const onEdgesChangeHandler = useCallback(
-        (changes) => setEdges((edges) => applyEdgeChanges(changes, edges)),
-        []);
-
-    // Create Edges and connect to nodes
-    const onConnectHandler = useCallback(
-        (params) => { setEdges((edges) => addEdge({ ...params, animated: false }, edges)) },
-        []);
-
-    return (
-        <ReactFlow
-            nodes={nodes}
-            onNodesChange={onNodesChangeHandler}
-            edges={edges}
-            onEdgesChange={onEdgesChangeHandler}
-            onConnect={onConnectHandler}
-            fitView
-            nodeTypes={nodeTypes}
-        >
-
-            <Background color="#ccc" variant="lines" />
-            <Controls showInteractive={false} className="controls-btn">
-                <ControlButton onClick={() => alert(`check out my GitHub profile 🚀 : https://github.com/Jagrati1213`)}>
-                    <GithubFilled />
-                </ControlButton>
-            </Controls>
-            <MiniMap nodeColor={nodeColor} nodeStrokeWidth={3} />
-        </ReactFlow>)
+// custom MindNode
+const nodeTypes = {
+  mindmap: MindMapNode,
 }
+
+// custom MindEdge
+const edgeTypes = {
+  mindmap: MindMapEdge,
+}
+
+// State selector
+const selector = (state) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+  onNodesChange: state.onNodesChange,
+  onEdgesChange: state.onEdgesChange,
+  addChildNode: state.addChildNode,
+  updateNodeLabel: state.updateNodeLabel
+});
+
+// this places the node origin in the center of a node
+const nodeOrigin = [0, 0];
+
+function Flow() {
+
+  const store = useStoreApi(); // Create store APi
+  const { screenToFlowPosition } = useReactFlow();
+  const connectingNodeId = useRef(null);// Reference for nodes
+
+  const { nodes, edges, onNodesChange, onEdgesChange, addChildNode } = useStore(
+    selector,
+    shallow
+  );// Import all things from store
+
+
+  // Helper
+  const getChildNodePosition = (event, parentNode) => {
+    const { domNode } = store.getState();
+
+    if (
+      !domNode ||
+      // we need to check if these properties exist, because when a node is not initialized yet,
+      // it doesn't have a positionAbsolute nor a width or height
+      !parentNode?.positionAbsolute || !parentNode?.width || !parentNode?.height) {
+      return;
+    }
+
+    const panePosition = screenToFlowPosition({
+      x: event.clientX,
+      y: event.clientY,
+    });
+
+    return {
+      x: panePosition.x - parentNode.positionAbsolute.x + parentNode.width / 2,
+      y: panePosition.y - parentNode.positionAbsolute.y + parentNode.height / 2,
+    };
+  };
+
+  const onConnectStart = useCallback((_, { nodeId }) => {
+    connectingNodeId.current = nodeId;
+  }, []);
+
+  const onConnectEnd = useCallback(
+    (event) => {
+      const { nodeInternals } = store.getState();
+      const targetIsPane = event.target.classList.contains('react-flow__pane',);
+      const node = event.target.closest('.react-flow__node');
+
+      if (node) {
+        node.querySelector('input')?.focus({ preventScroll: true });
+      }
+      else if (targetIsPane && connectingNodeId.current) {
+        const parentNode = nodeInternals.get(connectingNodeId.current);
+        const childNodePosition = getChildNodePosition(event, parentNode);
+
+        if (parentNode && childNodePosition) {
+          addChildNode(parentNode, childNodePosition);
+        }
+      }
+    },
+    [getChildNodePosition],
+  );
+
+
+
+  return (
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      nodeOrigin={nodeOrigin}
+      nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
+      onConnectStart={onConnectStart}
+      onConnectEnd={onConnectEnd}
+      fitView
+    >
+      <Controls showInteractive={false} >
+        <ControlButton onClick={() => alert('visit github profile: https://github.com/Jagrati1213')}>
+          <GithubFilled />
+        </ControlButton>
+      </Controls>
+      <MiniMap />
+      <Panel position="top-right"
+        style={{ fontSize: '1.2rem', textTransform: 'uppercase', color: 'gray', fontSize: '1.3rem' }}>
+        Drag Mind Map
+      </Panel>
+    </ReactFlow>
+  );
+}
+
 export default Flow;
