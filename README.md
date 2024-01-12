@@ -19,11 +19,18 @@
 
 - for this we used one more handler called `onconnect` and `addEdge`.
 
- <!-- Another Way : works properly with normal function - useCallback just used re-render only updated part instead of whole component
+## Handle:
+
+- The` <Handle />` component is used in your custom nodes to define connection points.
+
+## BaseEdge:
+
+- Used to create Edges in React flow and calculate the SVG path.
+<!-- Another Way : works properly with normal function - useCallback just used re-render only updated part instead of whole component
 
 const fun = (changes) => {
 return setNodes((nodes) => applyNodeChanges(changes, nodes));
 }
 const fun1 = (changes) => {
 return setEdges((nodes) => applyEdgeChanges(changes, nodes));
-}  -->
+} -->
