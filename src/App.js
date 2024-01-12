@@ -1,7 +1,7 @@
-import Flow from './components/Flow';
 import { Layout } from 'antd';
 import HeaderComponent from './components/Header';
 import SiderComponent from './components/SiderComponent';
+import Flow from './components/Flow';
 const { Content } = Layout;
 
 function App() {
