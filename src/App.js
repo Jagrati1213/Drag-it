@@ -15,7 +15,6 @@ function App() {
           <Flow />
         </Content>
       </Layout>
-      {/* <Footer>Footer</Footer> */}
     </Layout >
   );
 }
