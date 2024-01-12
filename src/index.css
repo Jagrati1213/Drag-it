@@ -31,16 +31,84 @@ body,
   }
 }
 
-.text-updater-node {
-  height: 50px;
-  border: 1px solid #eee;
-  padding: 5px;
-  border-radius: 5px;
-  background: white;
+.react-flow__controls-button {
+  width: 20px;
+  height: 20px;
 }
 
-.text-updater-node label {
-  display: block;
-  color: #777;
-  font-size: 12px;
+/* custom handle node */
+.react-flow__node-mindmap {
+  background: #366138;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  padding: 5px;
+}
+
+.react-flow__handle.target {
+  top: 100%;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.react-flow__handle.source {
+  top: 0;
+  left: 0;
+  transform: none;
+  background: #b0d8a1;
+  height: 100%;
+  width: 100%;
+  border-radius: 2px;
+  border: none;
+}
+
+.react-flow .react-flow__connectionline {
+  z-index: 0;
+}
+
+.react-flow__edge-path {
+  stroke: #b0d8a1;
+  stroke-width: 2;
+}
+
+.inputWrapper {
+  display: flex;
+  height: 20px;
+  z-index: 1;
+  position: relative;
+  pointer-events: none;
+  padding: 0;
+}
+
+.dragHandle {
+  background: transparent;
+  width: 14px;
+  height: 100%;
+  margin-right: 4px;
+  display: flex;
+  align-items: center;
+  pointer-events: all;
+}
+
+.dragHandle svg {
+  fill: white;
+}
+
+.input {
+  border: none;
+  padding: 0 2px;
+  border-radius: 1px;
+  font-weight: 700;
+  background: transparent;
+  height: 100%;
+  color: White;
+  pointer-events: none;
+  font-size: 10px;
+}
+
+.input:focus {
+  border: none;
+  outline: none;
+  padding: 2px;
+  background: #366138;
+  pointer-events: all;
 }
