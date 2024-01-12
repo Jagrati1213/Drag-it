@@ -18,9 +18,9 @@ export const MenuJson = [
         icon: <TeamOutlined />,
         disabled: true,
         children: [
-            { label: 'Jagrati', key: '3', icon: <ApartmentOutlined /> },
-            { label: 'Siddharth', key: '4', icon: <ApartmentOutlined /> },
-            { label: 'Maggu', key: '5', icon: <ApartmentOutlined /> },
+            { label: 'Jagrati', key: '3.1', icon: <ApartmentOutlined /> },
+            { label: 'Siddharth', key: '3.2', icon: <ApartmentOutlined /> },
+            { label: 'Maggu', key: '3.3', icon: <ApartmentOutlined /> },
         ]
     },
 ];
